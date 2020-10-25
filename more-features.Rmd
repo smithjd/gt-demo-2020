@@ -1,0 +1,172 @@
+---
+title: "GT Demo - more elaborate"
+author: "John D. Smith"
+date: "10/16/2020"
+output: html_document
+---
+
+## Resources:
+
+-   <https://blog.rstudio.com/2020/04/08/great-looking-tables-gt-0-2/>
+-   <https://gt.rstudio.com/>
+-   <https://gt.rstudio.com/reference/index.html>
+
+## Load libraries
+
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+This demo meanders from the outside and top of a table and works its way in. At the end we explore how to use the output.
+
+![](img/gt_parts_of_a_table.svg)
+
+# The tour
+
+## The `gt` package comes with some handy demo data tables.
+
+We'll use the `gtcars` data frame including cars from all countries.
+
+```{r}
+glimpse(gtcars)
+```
+
+`gt` interacts with `dplyr` groups in interesting ways.
+
+```{r}
+mileage <- gtcars %>% 
+  group_by(year, ctry_origin, bdy_style) %>% 
+  summarize(n = n(), hp_mean = mean(hp), mpg_h_mean = mean(mpg_h))
+```
+
+The last variable in the `group_by` becomes a row label and the others are concatenated into a block label.
+
+```{r}
+t <- mileage %>%
+  gt()
+t
+```
+
+We'll use a simpler grouping in subsequent examples. Just passing a grouped data frame produces a table with a more complicated structure than an un-grouped data frame.
+
+```{r}
+mileage <- gtcars %>%
+  group_by(ctry_origin, bdy_style) %>%
+  summarize(n = n(),
+            hp_mean = mean(hp),
+            mpg_h_mean = mean(mpg_h))
+
+t <- mileage %>%
+  gt()
+t
+```
+
+Format all the numeric columns:
+
+```{r}
+t <-  t %>%
+  fmt_number(vars(n, hp_mean, mpg_h_mean),
+             decimals = 0)
+t
+```
+
+Labeling the grouping variable has no effect.
+
+```{r}
+t <- t %>%
+  cols_label(
+    bdy_style = "Style",
+    hp_mean = html("Horse<br>Power<br>Mean"),
+    mpg_h_mean = html("Highway<br>MPG<br>Mean"),
+    n = html("Number<br>of<br>Models"),
+    ctry_origin = "Country"
+  )
+t
+
+```
+
+The `tab_spanner()` function helps describe the table's contents, but doesn't improve the labeling of the grouping variable.
+
+```{r}
+t <- t %>% 
+  tab_spanner(
+    label = "Mean",
+    columns = vars(
+      hp_mean, mpg_h_mean)
+  ) %>% 
+  tab_spanner(
+    label = "Count",
+    columns = vars(n)
+  ) %>% 
+  cols_label(
+    bdy_style = "Style",
+    hp_mean = html("Horse<br>Power"),
+    mpg_h_mean = html("Highway<br>MPG"),
+    n = html("Models"),
+    ctry_origin = "Country"
+  ) 
+t
+```
+
+Explanatory footnotes on individual cells can be specified in several ways.
+
+```{r}
+t <- t %>% 
+tab_footnote(
+    footnote = "Highest horsepower group of all.",
+    locations = cells_body(
+      columns = vars(hp_mean),
+      rows = hp_mean == max(hp_mean))
+  ) 
+t
+```
+
+Footnotes appear in order on the table, not in the order they are specified:
+
+```{r}
+t <- t %>% 
+tab_footnote(
+    footnote = "Best overall gas mileage.",
+    locations = cells_body(
+      columns = vars(mpg_h_mean),
+      rows = mpg_h_mean == 27.5)
+  ) 
+t
+```
+
+The HTML file that `gtsave()` generates is easy to copy and paste into a Google Doc. The supported file extensions / file types are: `.html`, `.png`, `pdf`, `.tex`, `.ltx`, `.rtf`. In my, the `.png` files are not very easy to work with.
+
+```{r}
+gtsave(t, "gtdemo_table.html")
+```
+
+Here is a problem that I have not solved. Formatting totals at the bottom of a table.
+
+```{r}
+tm <- mileage %>% 
+  gt(groupname_col = vars("bdy_style")) %>% 
+    tab_spanner(
+    label = "Mean",
+    columns = vars(
+      hp_mean, mpg_h_mean)
+  ) %>% 
+  tab_spanner(
+    label = "Count",
+    columns = vars(n)
+  ) %>% 
+  cols_label(
+    bdy_style = "Style",
+    hp_mean = html("Horse<br>Power"),
+    mpg_h_mean = html("Highway<br>MPG"),
+    n = html("Models"),
+    ctry_origin = "Country"
+  ) %>% 
+  summary_rows(groups = NULL, 
+               columns = vars(n), 
+               fns = list(sum = ~sum(.))) %>% 
+               # formatter = fmt_number(.)) %>% 
+fmt_number(vars(n, hp_mean, mpg_h_mean),
+             decimals = 0)
+tm
+```
