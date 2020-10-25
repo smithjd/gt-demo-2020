@@ -17,7 +17,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Is it really a *grammar*?
 
-Tables are very complex and seem under-theorized (Wilkinson's Grammar of Graphics [book](https://isbn.nu/0387987746) really describes a **theory**). Whether we have a theory of tables might be debatable. Nice features of `gt` include:
+Tables are very complex and seem under-theorized (Wilkinson's Grammar of Graphics [book](https://isbn.nu/0387987746) really describes a **theory**). Whether we have a theory of tables might be debatable. There may be formal definitions of a grammar, but from a practical point of view, a grammar is internalized through use and hopefully becomes invisible when we *think in the grammar's language.*
+
+Nice features of `gt` include:
 
 -   Ability to build tables by chaining functions with the `%>%` pipe
 
@@ -34,7 +36,7 @@ Tables are very complex and seem under-theorized (Wilkinson's Grammar of Graphic
 
 A grammar is something you can learn (even if it's difficult) but becomes so intuitive that we become unaware of using it. That level of familiarity seems far off to me.
 
-# The plan
+# Demo Set up
 
 ## Load libraries
 
@@ -47,18 +49,17 @@ This demo meanders from the outside and top of a table and works its way in.
 
 ![](img/gt_parts_of_a_table.svg)
 
-# The tour
-
-## The `gt` package comes with some handy demo data tables.
+## `gtcars` is a handy demo table that comes with the `gt` package
 
 ```{r}
 glimpse(gtcars)
 
 us_cars <- gtcars %>% filter(ctry_origin == "United States")
-
 ```
 
-## Start simple
+# The tour
+
+## A default table
 
 `gt` defaults produces a basic table that includes all variables:
 
@@ -68,13 +69,7 @@ t <- us_cars %>%
 t
 ```
 
-The `t` object is a list of lists that gets added to, starting with:
-
-```{r}
-str(t, max.level = 1)
-```
-
-## gt is part of the tidyverse
+## Tidy the data before passing it to `gt`
 
 The tidyverse norm is to shape the data, select columns and order them before passing to a special-purpose sub-language like `gt`:
 
@@ -85,7 +80,11 @@ t <- us_cars %>%
 t
 ```
 
-The `gt` object `t` caries a list of columns with it.
+That replaces the `t` object. The `gt` object `t` caries a list of columns with it. It's a list of lists that gets added to step-by-step, starting with:
+
+```{r}
+str(t, max.level = 1)
+```
 
 ## Add a minimal title & subtitle
 
