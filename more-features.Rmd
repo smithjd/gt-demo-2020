@@ -1,5 +1,5 @@
 ---
-title: "GT Demo - more elaborate"
+title: "GT Demo - Part 2 - more elaborate"
 author: "John D. Smith"
 date: "10/16/2020"
 output: html_document
@@ -14,7 +14,7 @@ output: html_document
 ## Load libraries
 
 ```{r}
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(gt)
 ```
 
@@ -24,7 +24,7 @@ This demo meanders from the outside and top of a table and works its way in. At 
 
 # The tour
 
-## The `gt` package comes with some handy demo data tables.
+## Continue with `gtcars`
 
 We'll use the `gtcars` data frame including cars from all countries.
 
@@ -39,6 +39,8 @@ mileage <- gtcars %>%
   group_by(year, ctry_origin, bdy_style) %>% 
   summarize(n = n(), hp_mean = mean(hp), mpg_h_mean = mean(mpg_h))
 ```
+
+## `group_by` is a natural
 
 The last variable in the `group_by` becomes a row label and the others are concatenated into a block label.
 
@@ -62,7 +64,20 @@ t <- mileage %>%
 t
 ```
 
-Format all the numeric columns:
+## A bestiary of functions to format columns
+
+`gt` provides the following `fmt_` functions:
+
+-   `fmt_currency()`
+-   `fmt_date()`
+-   `fmt_datetime()`
+-   `fmt_markdown()`
+-   `fmt_missing()`
+-   `fmt_number()`
+-   `fmt_passthrough()`
+-   `fmt_percent()`
+-   `fmt_scientific()`
+-   `fmt_time()`
 
 ```{r}
 t <-  t %>%
@@ -71,7 +86,20 @@ t <-  t %>%
 t
 ```
 
-Labeling the grouping variable has no effect.
+## Many `cols_` functions to manipulate columns
+
+-   `cols_align()`
+-   `cols_hide()`
+-   `cols_label()`
+-   `cols_merge()`
+-   `cols_merge_range()`
+-   `cols_merge_uncert()`
+-   `cols_move()`
+-   `cols_move_to_end()`
+-   `cols_move_to_start()`
+-   `cols_width()`
+
+Nice labels for columns, except that labeling the `group_by` seems to have no effect.
 
 ```{r}
 t <- t %>%
@@ -85,6 +113,16 @@ t <- t %>%
 t
 
 ```
+
+-   `tab_footnote()`
+-   `tab_header()`
+-   `tab_options()`
+-   `tab_row_group()`
+-   `tab_source_note()`
+-   `tab_spanner()`
+-   `tab_spanner_delim()`
+-   `tab_stubhead()`
+-   `tab_style()`
 
 The `tab_spanner()` function helps describe the table's contents, but doesn't improve the labeling of the grouping variable.
 
@@ -108,6 +146,8 @@ t <- t %>%
   ) 
 t
 ```
+
+## Footnotes
 
 Explanatory footnotes on individual cells can be specified in several ways.
 
@@ -134,6 +174,8 @@ tab_footnote(
   ) 
 t
 ```
+
+## Saving a `gt` table
 
 The HTML file that `gtsave()` generates is easy to copy and paste into a Google Doc. The supported file extensions / file types are: `.html`, `.png`, `pdf`, `.tex`, `.ltx`, `.rtf`. In my, the `.png` files are not very easy to work with.
 
@@ -170,3 +212,11 @@ fmt_number(vars(n, hp_mean, mpg_h_mean),
              decimals = 0)
 tm
 ```
+
+# More resources
+
+Here are some more in-depth resources about tables and `gt` in particular:
+
+-   Tom Mock ([\@thomas\_mock](https://twitter.com/thomas_mock)) presentation on [Beautiful Tables in R; gt and the grammar of tables](https://themockup.blog/static/slides/intro-tables.html#1).
+
+-   Anybody else?

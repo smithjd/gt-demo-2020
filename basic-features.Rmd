@@ -40,8 +40,8 @@ A grammar is something you can learn (even if it's difficult) but becomes so int
 
 ## Load libraries
 
-```{r}
-library(tidyverse)
+```{r, message=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
 library(gt)
 ```
 
@@ -54,6 +54,11 @@ This demo meanders from the outside and top of a table and works its way in.
 ```{r}
 glimpse(gtcars)
 
+```
+
+Right off the bat: a table with 15 columns and 47 rows would be too wide and too long to be useful. Start with a US subset.
+
+```{r}
 us_cars <- gtcars %>% filter(ctry_origin == "United States")
 ```
 
@@ -61,7 +66,7 @@ us_cars <- gtcars %>% filter(ctry_origin == "United States")
 
 ## A default table
 
-`gt` defaults produces a basic table that includes all variables:
+15 columns is still too wide, although `gt` tries to produce something:
 
 ```{r}
 t <- us_cars %>% 
@@ -88,7 +93,7 @@ str(t, max.level = 1)
 
 ## Add a minimal title & subtitle
 
-The *gramar* aspect of `gt` is reminiscent of `gglot2` and takes some effort to learn.
+The *grammar* aspect of `gt` is reminiscent of `gglot2` and takes some effort to learn.
 
 ```{r}
 t <- t %>% 
