@@ -64,6 +64,8 @@ us_cars <- gtcars %>% filter(ctry_origin == "United States")
 
 # The tour
 
+In lieu of something really cool like [Gina Reynold's flipbook setup](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1), we can write and re-write a `gt` object called `t.`
+
 ## A default table
 
 15 columns is still too wide, although `gt` tries to produce something:

@@ -219,4 +219,8 @@ Here are some more in-depth resources about tables and `gt` in particular:
 
 -   Tom Mock ([\@thomas\_mock](https://twitter.com/thomas_mock)) presentation on [Beautiful Tables in R; gt and the grammar of tables](https://themockup.blog/static/slides/intro-tables.html#1).
 
+-   [Table Talk](http://www.storytellingwithdata.com/blog/2020/10/27/table-talkhttp://www.storytellingwithdata.com/blog/2020/10/27/table-talk) - [Alex Velez](http://www.storytellingwithdata.com/blog?author=5d025ce5e4376c0001389069) IN [Data Viz Challenge](http://www.storytellingwithdata.com/blog?category=Data+Viz+Challenge), [SWD Challenge](http://www.storytellingwithdata.com/blog?category=SWDchallenge)
+
+-   [Rstudio Community](https://community.rstudio.com/) - [Table Contest](https://community.rstudio.com/c/R-Markdown/tables/38) - an incredibly rich set of examples
+
 -   Anybody else?
