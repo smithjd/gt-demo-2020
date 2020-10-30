@@ -223,4 +223,8 @@ Here are some more in-depth resources about tables and `gt` in particular:
 
 -   [Rstudio Community](https://community.rstudio.com/) - [Table Contest](https://community.rstudio.com/c/R-Markdown/tables/38) - an incredibly rich set of examples
 
+-   New package [reactable](https://glin.github.io/reactable/) - see the examples for what's possible
+
+-   Kable
+
 -   Anybody else?
